@@ -1,0 +1,16 @@
+#!/bin/bash
+apps=`cf a | tail -n +5 | awk '{print $1}'`
+for a in $apps
+do
+  echo Deleting application $a
+  cf d -f $a
+done
+
+services=`cf s | tail -n +5 | awk '{print $1}'`
+for s in $services
+do
+  echo Deleting service $s
+  cf ds -f $s
+done
+
+cf delete-orphaned-routes -f
